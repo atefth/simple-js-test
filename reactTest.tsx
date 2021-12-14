@@ -5,7 +5,7 @@
  * - These are a theoretical questions, there is no need to install packages or run the code.
  */
 
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 /**
  * TEST 1
@@ -18,12 +18,12 @@ import React from "react";
  */
 
 interface ITest1ComponentProps {
-    name: string;
-    age:number;
+	name: string;
+	age: number;
 }
 
 export const Test1Component = (props: ITest1ComponentProps) => {
-
+	return (<p style={props.age >= 18 ? { color: 'blue' } : { color: 'red' }}>{props.name}</p>)
 }
 
 
@@ -48,25 +48,26 @@ export const Test1Component = (props: ITest1ComponentProps) => {
  * @param name Name of the person we want to find the age
  * @returns random integer from 0 to 39
  */
-const getAge = async (name: string): Promise<number>  => {
-    // This function calls an API and returns
-    return new Promise((resolve, reject) => {
-        return setTimeout(() => {
-            resolve(Math.floor(Math.random() * 40));
-        },500);
-    })
+const getAge = async (name: string): Promise<number> => {
+	// This function calls an API and returns
+	return new Promise((resolve, reject) => {
+		return setTimeout(() => {
+			resolve(Math.floor(Math.random() * 40));
+		}, 500);
+	})
 }
 
 interface ITest2ComponentProps {
-    name: string;
+	name: string;
 }
 
 export const Test2Component = (props: ITest2ComponentProps) => {
+	const [age, setAge] = useState(0);
 
-    useEffect(() => {
-    }, []);
-    
+	useEffect(() => {
+		getAge(props.name).then(value => setAge(value));
+	}, [props.name]);
+
+	return (<p style={age >= 18 ? { color: 'blue' } : { color: 'red' }}>{props.name}</p>)
+
 }
-
-
-
